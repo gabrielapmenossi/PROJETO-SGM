@@ -19,7 +19,7 @@
     <main>
         <div class="solicitacoes">
             <div class="card novas-solicitacoes">
-                <h3>Novas Solicitações</h3>
+                <h3>Novas Solicitações</h3> 
                 <p>0</p>
             </div>
             <div class="card em-andamento">
