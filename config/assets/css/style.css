@@ -1,0 +1,304 @@
+*{
+    font-family:  Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+header{
+    font-size: smaller;
+    display: flex;
+    background-color: #746F7D;
+    justify-content: space-between;
+    color: rgb(255, 255, 255);
+}
+
+.header-top{
+    display: flex;
+    font-size: smaller;
+    padding-left: 50px;
+    padding-right: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sair{
+    padding: 8px;
+    margin: 5px;
+    background-color: rgb(255, 42, 42);
+    color: rgb(255, 255, 255);
+    border:none;
+    border-radius: 3px;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.solicitacoes{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.card{
+    padding: 5px;
+    padding-left: 20px;
+    width: 20%;
+    border-radius: 10px;
+}
+
+.novas-solicitacoes{
+    background-color: #A67CEB;
+    color: rgb(255, 255, 255);
+}
+
+.em-andamento{
+    background-color: #70E689;
+    color: rgb(255, 255, 255);
+}
+
+.criticos-urgentes{
+    background-color: #E6B070;
+    color: rgb(255, 255, 255);
+}
+
+.links{
+    display: flex;
+    gap: 50px;
+}
+
+.gerenciar{
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #A79279;
+    color: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.configurar{
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: rgb(255, 255, 255);
+    color: #8060ff;
+    border-radius: 10px;
+    border: 1px solid #8060ff;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.tecnico{
+    padding-top: 20px;
+    padding-left: 100px;
+}
+
+.tecnico h3{
+    width: 100%;
+}
+
+.minhassolicitacoes{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 85%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.novasolicitacao{
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: rgb(255, 255, 255);
+    color: #A67CEB;
+    border-radius: 10px;
+    border: 1px solid #A67CEB;
+    padding-right: 10px;
+    padding-left: 10px; 
+    padding: 10px;
+}
+
+table{
+    padding: 10px;
+    width: 85%;
+    box-shadow: 1px 3px 5px #746F7D;
+}
+
+tr{
+    padding: 10px;
+}
+
+thead{
+    padding: 10px;
+}
+
+th{
+    width: 10%;
+    border-bottom: 1px solid #746F7D;
+    text-align: start;
+    padding: 10px;
+}
+
+td{
+    width: 10%;
+    padding: 10px;
+}
+
+.status{
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #A79279;
+    color: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.acoes{
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #A79279;
+    color: #ffffff;
+    border-radius: 10px;
+    border: none;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.todososchamados{
+    width: 85%;
+    text-align: start;
+}
+
+.tipo{
+    gap: 10px;
+    border-radius: 10px;
+    padding-right: 10px;
+    padding-left: 10px; 
+    padding: 10px;
+}
+
+.todos{
+    background-color: #ffffff;
+    color: #746F7D;
+    border: 1px solid #746F7D;
+}
+
+.abertos{
+    background-color: #ffffff;
+    color: #A67CEB;
+    border: 1px solid #A67CEB;
+}
+
+.emexecucao{
+    background-color: #ffffff;
+    color: #70E689;
+    border: 1px solid #70E689;
+}
+
+.concluidos{
+    background-color: #ffffff;
+    color: #E6B070;
+    border: 1px solid #E6B070;
+}
+
+.prioridadealta{
+    color: #ff6e6e !important;
+}
+
+.voltar{
+    background-color: #ffffff;
+    color: #746F7D;
+    border: 1px solid #746F7D;
+    text-align: start;
+    margin: 10px;
+}
+
+.dadosetriagem{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.dadossolicitacao{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin
+
+}
+
+.triagemeatribuicao{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+
+}
+
+.dadossolicitacao .a{
+    width: 100%;
+    padding: 0px;
+    box-shadow: 1px 3px 10px #746F7D;
+}
+
+.dados{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    text-align: start;
+}
+.strong{
+    font-weight: bold;
+}
+
+.reabrir{
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: #70E689;
+    color: #ffffff;
+    border-radius: 10px;
+    border: none;
+    margin-right: none;
+}
+
+.evidencias img{
+    width: 30%;
+}
