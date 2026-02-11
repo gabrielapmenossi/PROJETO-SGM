@@ -256,7 +256,6 @@ td{
     display: flex;
     flex-direction: column;
     width: 40%;
-    margin
 
 }
 
@@ -267,10 +266,10 @@ td{
 
 }
 
-.dadossolicitacao .a{
+.a{
     width: 100%;
-    padding: 0px;
     box-shadow: 1px 3px 10px #746F7D;
+    padding: 10px;
 }
 
 .dados{
