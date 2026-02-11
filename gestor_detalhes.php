@@ -36,6 +36,10 @@
                 <a href="#"><button class="reabrir">Reabrir Chamado</button></a>
             </div>
             <div class="triagemeatribuicao">
+                
+                <div class="a">
+                    <h2>Triagem e Atribuição</h2>
+                    <hr>
                     <div class="triagem">
                         <h3>Técnico Responsável</h3>
                         <select name="" id="">
@@ -55,6 +59,7 @@
                         <h3>Data Prevista</h3>
                         <input type="date" name="" id="">
                     </div>
+                </div>
                     <a href="#"><button class="confirmar">Confirmar atribuição</button></a>
             </div>
        </div>
