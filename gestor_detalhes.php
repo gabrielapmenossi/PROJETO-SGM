@@ -40,24 +40,24 @@
                 <div class="a">
                     <h2>Triagem e Atribuição</h2>
                     <hr>
-                    <div class="triagem">
+                    <div class="triagens">
                         <h3>Técnico Responsável</h3>
-                        <select name="" id="">
+                        <select name="" id="triagem">
                             <option value="">João Técnico</option>
                             <option value="">Luciana Técnica</option>
                         </select>
                     </div>
                     <div class="triagem">
                         <h3>Prioridade</h3>
-                        <select name="" id="">
+                        <select name="" id="triagem">
                             <option value="">Baixa</option>
                             <option value="">Média</option>
                             <option value="">Alta</option>
                         </select>
                     </div>
-                    <div class="triagem">
+                    <div class="triagens">
                         <h3>Data Prevista</h3>
-                        <input type="date" name="" id="">
+                        <input type="date" name="" id="triagem">
                     </div>
                 </div>
                     <a href="#"><button class="confirmar">Confirmar atribuição</button></a>
