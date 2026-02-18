@@ -341,3 +341,33 @@ td{
 .evidencias img{
     width: 30%;
 }
+
+.chamado{
+    width: 60%;
+    height: auto;
+    background-color: #ffffff;
+    border: 1px solid #A67CEB;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form-criar-chamado{
+    padding: 10px;
+}
+
+.abrir-chamado{
+    width: 100%;
+    background-color: #A67CEB;
+    display: flex;
+    justify-content: space-between;
+}
+
+.voltarsolicitacao{
+    background-color: #70E689;
+    color: #746F7D;
+    border: none;
+    text-align: start;
+    margin: 10px;
+}
