@@ -17,7 +17,9 @@
         </div>
     </header>
 <main>
-
+    <div class="w-100 ">
+        <a href="gestor_dashboard.php"><button class="voltar ">Voltar</button></a> 
+    </div>
 
 
     <div class="container">
@@ -33,8 +35,8 @@
 
         <div class="card shadow w-100">
             <div class="table-responsive w-100">
-                <table class="table table-hover align-middle mb-0 rounded">
-                    <thead class="table-light">
+                <table class="table table-hover align-middle mb-0 ">
+                    <thead class="">
                         <tr>
                             <th>ID</th>
                             <th>Solicitante</th>
@@ -45,8 +47,7 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="tabelaGeral">
-                        </tbody>
+                    <tbody id="tabelaGeral"></tbody>
                 </table>
             </div>
         </div>
