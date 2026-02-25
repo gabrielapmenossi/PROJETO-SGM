@@ -11,7 +11,8 @@
     </style>
 </head>
 <body>
-    <div class="login-card p-4 bg-white shadow rounded">
+    <div class="login-card p-4 bg-white" style="border: 1px solid #70E689; border-radius: 3px; box-shadow: 1px 1px 10px #51ab64ff;">
+        <i class="bi bi-airplane" style="width: 100%"></i>
         <h3 class="text-center mb-4">SGM - Acesso</h3>
         <form id="formLogin">
             <div class="mb-3">
@@ -22,7 +23,7 @@
                 <label>Senha</label>
                 <input type="password" id="senha" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            <button type="submit" class="btn w-100" style="background-color: #A67CEB; border-radius: 3px;">Entrar</button>
             <div id="mensagem" class="mt-3 text-center text-danger small"></div>
         </form>
     </div>

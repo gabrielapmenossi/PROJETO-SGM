@@ -11,7 +11,7 @@ switch($perfil){
         header('Location: gestor_dashboard.php');
         break;
     case 'tecnico':
-        header('Location: tecnic_minhas_tarefas.php');
+        header('Location: tecnico_minhas_tarefas.php');
         break;
     case 'solicitante':
         header('Location: solicitante_dashboard.php');

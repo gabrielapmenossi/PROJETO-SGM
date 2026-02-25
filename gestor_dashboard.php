@@ -13,7 +13,7 @@
             <h2>SGM | Gestão Administrativa</h2>
         </div>
         <div class="header-top">
-            <h2>Olá, Admin Gestor | </h2><a href="./api/logout.php"><button class="sair">Sair</button></a>
+            <h2 >Olá, Admin Gestor | </h2><a href="./api/logout.php"><button class="sair">Sair</button></a>
         </div>
     </header>
     <main>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="links">
-            <a href="#"><button class="gerenciar">
+            <a href="./gestor_chamados.php"><button class="gerenciar">
                 <i class="bi bi-list-ul"></i>
                 <h4>Gerenciar Todos os Chamados</h4>
             </button></a>
