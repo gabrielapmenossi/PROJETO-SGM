@@ -20,8 +20,6 @@
     <div class="w-100 ">
         <a href="gestor_dashboard.php"><button class="voltar ">Voltar</button></a> 
     </div>
-
-
     <div class="container">
         <br>
         <h2 class="mb-4">Todos os Chamados</h2>
@@ -50,7 +48,9 @@
                     <tbody id="tabelaGeral"></tbody>
                 </table>
             </div>
+            <br>
         </div>
+        <br>
     </div>
 <div class="modal fade" id="modalFoto" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
