@@ -36,12 +36,23 @@
                 <i class="bi bi-list-ul"></i>
                 <h4>Gerenciar Todos os Chamados</h4>
             </button></a>
-            <a href="#"><button class="configurar">
+            <a href="./gestor_ambientes.php"><button class="configurar">
                 <i class="bi bi-geo-alt"></i>
                 <h4>Configurar Ambientes</h4>
             </button></a>
+            <a href="./gestor_blocos.php"><button class="configurar">
+                <i class="bi bi-geo-alt"></i>
+                <h4>Configurar Blocos</h4>
+            </button></a>
+            <a href="./gestor_tipos_servico.php"><button class="configurar">
+                <i class="bi bi-geo-alt"></i>
+                <h4>Configurar Tipo de Serviço</h4>
+            </button></a>
+            <a href="./gestor_usuarios.php"><button class="configurar">
+                <i class="bi bi-geo-alt"></i>
+                <h4>Configurar Usuário</h4>
+            </button></a>
         </div>
     </main>
-    
 </body>
 </html>
