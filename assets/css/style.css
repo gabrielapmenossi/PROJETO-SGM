@@ -110,17 +110,24 @@ a{
 button{
     text-decoration: none;
 }
+
 .configurar{
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
     background-color: rgb(255, 255, 255);
     color: #8060ff;
     border-radius: 10px;
     border: 1px solid #8060ff;
-    padding-right: 10px;
-    padding-left: 10px;
+    display: flex;                /* Ativa o Flexbox */
+    flex-direction: row;          /* Coloca os itens em linha (lado a lado) */
+    justify-content: center;      /* Centraliza os itens horizontalmente */
+    align-items: center;          /* Centraliza os itens verticalmente */
+    gap: 8px;                     /* Adiciona um espaço entre o ícone e o texto */
+    padding: 10px 20px;           
+}
+
+/* Remove a margem padrão do h4 para evitar que o texto fique desalinhado verticalmente */
+.configurar p {
+    margin: 0;
+    font-size: 16px; /* Ajuste o tamanho da fonte se necessário */
 }
 
 .tecnico{

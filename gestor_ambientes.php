@@ -6,64 +6,67 @@
     <title>SGM - Configurar Ambientes</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
 </head>
 <body>
     <header>
         <div class="header-top">
-            <h2>SGM | Configurar Ambientes</h2>
+            <h5>SGM | Configurar Ambientes</h5>
         </div>
         <div class="header-top">
-            <h2 >Olá, Admin Gestor | </h2><a href="./api/logout.php"><button class="sair">Sair</button></a>
+            <h5 >Olá, Admin Gestor | </h5><a href="./api/logout.php"><button class="sair">Sair</button></a>
         </div>
     </header>
     <a href="gestor_dashboard.php"><button class="voltar">Voltar</button></a> 
     <main>
         <div class="links">
-            <a href="./gestor_criar_ambiente.php"><button class="configurar">
+            <a href="./gestor_criar_ambiente.php" class="text-decoration-none align-items-center"><button class="configurar">
                 <i class="bi bi-geo-alt"></i>
-                <h4>Criar Ambiente</h4>
+                <p>Criar Ambiente</p>
             </button></a>
-            <a href="./gestor_deletar_ambiente.php"><button class="configurar">
+            <a href="./gestor_deletar_ambiente.php" class="text-decoration-none align-items-center"><button class="configurar">
                 <i class="bi bi-geo-alt"></i>
-                <h4>Deletar Ambiente</h4>
+                <p>Deletar Ambiente</p>
             </button></a>
-            <a href="./gestor_atualizar_ambiente.php"><button class="configurar">
+            <a href="./gestor_atualizar_ambiente.php" class="text-decoration-none align-items-center"><button class="configurar">
                 <i class="bi bi-geo-alt"></i>
-                <h4>Atualizar Ambiente</h4>
+                <p>Atualizar Ambiente</p>
             </button></a>
         </div>
         <br>
-        <div class="card shadow w-100">
-            <div class="table-responsive w-100">
-                <table class="table table-hover align-middle mb-0 rounded">
-                    <thead class="">
+            <div class="w-75">
+                <table class="table table-striped table-hover rouded">
+                    <thead class="w-100">
                         <tr>
                             <th>ID</th>
                             <th>Ambiente</th>
                             <th>Bloco</th>
                         </tr>
                     </thead>
-                    <tbody id="tabelaAmbientes"></tbody>
+                    <tbody id="tabelaAmbientes" class=" w-100"></tbody>
                 </table>
             </div>
             <br>
-        </div>
     </main>
     <script>
-        async function carregarAmbientes(status = '') {
-            const res = await fetch(`api/gestor_ambientes.php?status=${status}`);
+        async function carregarAmbientes() {
+            const res = await fetch(`api/api_ambientes.php`);
             const ambientes = await res.json();
             const body = document.getElementById('tabelaAmbientes');
 
-            body.innerHTML = ambientes.map(c => `
+            body.innerHTML = ambientes.data.map(a => 
+             `
                 <tr>
-                    <td>#${c.id_ambiente}</td>
-                    <td>${c.ambinetes.nome}</td>
-                    <td>${c.blocos.nome}</td>
+                    <td>#${a.id_ambiente}</td>
+                    <td>${a.nome}</td>
+                    <td>${a.nome_bloco}</td>
                 </tr>
             `).join('');
         }
+
         carregarAmbientes();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 </body>

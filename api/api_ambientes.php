@@ -23,7 +23,7 @@ switch ($method){
                     $ambientes[] = $row;
                 }
             }
-            echo json_encode(["sucess" => true, "data" => $ambientes]);
+            echo json_encode(["success" => true, "data" => $ambientes]);
         break;
     case 'POST': 
         $data = json_decode(file_get_contents("php://input"));

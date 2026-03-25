@@ -20,7 +20,7 @@ switch ($method){
                     $blocos[] = $row;
                 }
             }
-            echo json_encode(["sucess" => true, "data" => $blocos]);
+            echo json_encode(["success" => true, "data" => $blocos]);
         break;
     case 'POST': 
         $data = json_decode(file_get_contents("php://input"));
