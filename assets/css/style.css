@@ -7,12 +7,13 @@ body{
     margin: 0px;
     padding: 0px;
     box-sizing: content-box;
+    background-color: #ffc0cb;
 }
 
 header{
     font-size: smaller;
     display: flex;
-    background-color: #746F7D;
+    background-color: #d46f8f;
     justify-content: space-between;
     color: rgb(255, 255, 255);
 }
@@ -405,4 +406,414 @@ form{
 input{
     border: 1px solid #A67CEB;
     border-radius: 3px;
+}
+
+/* --- Portal do solicitante (tema lilás) --- */
+body.portal-solicitante {
+    background: linear-gradient(160deg, #ede7f6 0%, #e1bee7 45%, #d1c4e9 100%);
+    min-height: 100vh;
+}
+
+body.portal-solicitante header {
+    background: linear-gradient(90deg, #7e57c2 0%, #9575cd 50%, #b39ddb 100%);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(94, 53, 177, 0.25);
+}
+
+body.portal-solicitante .minhassolicitacoes h3 {
+    color: #4a148c;
+}
+
+body.portal-solicitante .novasolicitacao {
+    background-color: #7e57c2;
+    color: #fff;
+    border: 1px solid #5e35b1;
+}
+
+body.portal-solicitante .novasolicitacao:hover {
+    background-color: #6a1b9a;
+    border-color: #4a148c;
+}
+
+body.portal-solicitante table {
+    background-color: rgba(255, 255, 255, 0.92);
+    border: 1px solid #ce93d8;
+    box-shadow: 0 4px 18px rgba(123, 31, 162, 0.12);
+}
+
+body.portal-solicitante .thsolicitante th {
+    background-color: #d1c4e9;
+    color: #311b92;
+    border-bottom: 1px solid #b39ddb;
+}
+
+body.portal-solicitante .chamado {
+    border-color: #9575cd;
+    box-shadow: 0 4px 20px rgba(94, 53, 177, 0.15);
+}
+
+body.portal-solicitante .abrir-chamado {
+    background: linear-gradient(90deg, #7e57c2, #9575cd);
+}
+
+body.portal-solicitante .voltarsolicitacao {
+    background-color: #ede7f6;
+    color: #4a148c;
+    border: 1px solid #b39ddb;
+}
+
+body.portal-solicitante .voltarsolicitacao:hover {
+    background-color: #d1c4e9;
+}
+
+body.portal-solicitante .btn-registrar-solicitacao {
+    background-color: #7e57c2;
+    color: #fff;
+    border: none;
+}
+
+body.portal-solicitante .btn-registrar-solicitacao:hover {
+    background-color: #6a1b9a;
+    color: #fff;
+}
+
+body.portal-solicitante .form-criar-chamado .form-select,
+body.portal-solicitante .form-criar-chamado .form-control,
+body.portal-solicitante .form-criar-chamado textarea {
+    border-color: #b39ddb;
+}
+
+body.portal-solicitante .form-criar-chamado .form-select:focus,
+body.portal-solicitante .form-criar-chamado .form-control:focus,
+body.portal-solicitante .form-criar-chamado textarea:focus {
+    border-color: #7e57c2;
+    box-shadow: 0 0 0 0.2rem rgba(126, 87, 194, 0.25);
+}
+
+/* --- Portal do técnico (tema rosa, mesmo padrão visual do solicitante) --- */
+body.portal-tecnico {
+    background: linear-gradient(160deg, #fff5f8 0%, #ffc0cb 45%, #f8bbd0 100%);
+    min-height: 100vh;
+}
+
+body.portal-tecnico header {
+    background: linear-gradient(90deg, #ad1457 0%, #d46f8f 50%, #f48fb1 100%);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(173, 20, 87, 0.28);
+}
+
+body.portal-tecnico main > h3 {
+    color: #880e4f;
+    padding-top: 20px;
+    width: 85%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: start;
+    box-sizing: border-box;
+}
+
+body.portal-tecnico main .card {
+    width: 85%;
+    max-width: 1200px;
+    margin: 1rem auto 2rem;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.92);
+    border: 1px solid #f48fb1;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(173, 20, 87, 0.12);
+    box-sizing: border-box;
+}
+
+body.portal-tecnico .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 10px;
+}
+
+body.portal-tecnico main table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+
+body.portal-tecnico main table th,
+body.portal-tecnico main table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #fce4ec;
+    width: auto;
+}
+
+body.portal-tecnico main table thead th {
+    background-color: #fce4ec;
+    color: #880e4f;
+    border-bottom: 1px solid #f48fb1;
+    font-weight: 600;
+}
+
+body.portal-tecnico main table tbody tr:hover {
+    background-color: rgba(255, 240, 245, 0.75);
+}
+
+body.portal-tecnico main table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+body.portal-tecnico .text-center {
+    text-align: center;
+}
+
+body.portal-tecnico .tecnico-celula-acao {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+body.portal-tecnico .tecnico-acao-status {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+body.portal-tecnico .tecnico-select-status {
+    min-width: 9.5rem;
+    padding: 6px 10px;
+    border: 1px solid #f48fb1;
+    border-radius: 6px;
+    background: #fff;
+    color: #880e4f;
+    font-size: 0.9rem;
+}
+
+body.portal-tecnico .btn-tecnico-atualizar-status {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #d46f8f, #c2185b);
+    color: #fff;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+body.portal-tecnico .btn-tecnico-atualizar-status:hover:not(:disabled) {
+    filter: brightness(1.05);
+}
+
+body.portal-tecnico .btn-tecnico-atualizar-status:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+body.portal-tecnico .tecnico-status-bloqueado {
+    color: #ad1457;
+    opacity: 0.5;
+}
+
+/* --- Portal do gestor (azul bebê, mesmo padrão dos outros portais) --- */
+body.portal-gestor {
+    background: linear-gradient(160deg, #f0f9ff 0%, #dbeefe 42%, #b8d9f0 100%);
+    min-height: 100vh;
+}
+
+body.portal-gestor header {
+    background: linear-gradient(90deg, #4a9fd8 0%, #6eb8e8 48%, #a8d8f5 100%);
+    color: #fff;
+    box-shadow: 0 2px 14px rgba(41, 128, 185, 0.28);
+}
+
+body.portal-gestor header h2,
+body.portal-gestor header h5 {
+    color: #fff;
+}
+
+body.portal-gestor .novas-solicitacoes {
+    background: linear-gradient(145deg, #3d8cc4, #5dade2);
+    color: #fff;
+    border: 1px solid #3498db;
+}
+
+body.portal-gestor .em-andamento {
+    background: linear-gradient(145deg, #5dade2, #85c1e9);
+    color: #fff;
+    border: 1px solid #5dade2;
+}
+
+body.portal-gestor .criticos-urgentes {
+    background: linear-gradient(145deg, #2e86ab, #4a9fd8);
+    color: #fff;
+    border: 1px solid #2874a6;
+}
+
+body.portal-gestor .gerenciar {
+    background: linear-gradient(180deg, #5dade2, #3498db);
+    color: #fff;
+    border: none;
+}
+
+body.portal-gestor .configurar {
+    background-color: #fff;
+    color: #2874a6;
+    border: 1px solid #5dade2;
+}
+
+body.portal-gestor .voltar {
+    background-color: #e8f6ff;
+    color: #1a5276;
+    border: 1px solid #85c1e9;
+}
+
+body.portal-gestor main > h2,
+body.portal-gestor main h2.mb-4 {
+    color: #1a5276;
+}
+
+body.portal-gestor main .table {
+    border: 1px solid #aed6f1;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.12);
+}
+
+body.portal-gestor main .table th,
+body.portal-gestor main .table td {
+    width: auto;
+}
+
+body.portal-gestor main .table thead th {
+    background-color: #d6eaf8;
+    color: #154360;
+    border-bottom: 2px solid #85c1e9;
+}
+
+body.portal-gestor main .table tbody tr:hover {
+    background-color: rgba(214, 234, 248, 0.55);
+}
+
+body.portal-gestor main .card.shadow {
+    border: 1px solid #aed6f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(52, 152, 219, 0.12) !important;
+    background-color: rgba(255, 255, 255, 0.96);
+}
+
+body.portal-gestor .mb-3.d-flex.gap-2 .btn:first-child {
+    border-color: #5dade2 !important;
+    color: #1a5276 !important;
+    background-color: #fff !important;
+}
+
+body.portal-gestor .mb-3.d-flex.gap-2 .btn:nth-child(2) {
+    background-color: #5dade2 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+body.portal-gestor .mb-3.d-flex.gap-2 .btn:nth-child(3) {
+    background-color: #3498db !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+body.portal-gestor .mb-3.d-flex.gap-2 .btn:nth-child(4) {
+    background-color: #2874a6 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+body.portal-gestor .a {
+    box-shadow: 0 4px 14px rgba(41, 128, 185, 0.18);
+    border: 1px solid #d6eaf8;
+    background-color: rgba(255, 255, 255, 0.65);
+}
+
+body.portal-gestor .triagem {
+    background-color: #5dade2;
+    color: #fff;
+}
+
+body.portal-gestor .reabrir,
+body.portal-gestor .confirmar {
+    background: linear-gradient(180deg, #5dade2, #3498db);
+    color: #fff;
+}
+
+body.portal-gestor .status,
+body.portal-gestor .acoes {
+    background: linear-gradient(180deg, #6eb8e8, #4a9fd8);
+    color: #fff;
+}
+
+body.portal-gestor main table:not(.table) {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #aed6f1;
+    box-shadow: 0 4px 14px rgba(52, 152, 219, 0.1);
+}
+
+body.portal-gestor main table:not(.table) thead th,
+body.portal-gestor main table:not(.table) th {
+    background-color: #d6eaf8;
+    color: #154360;
+    border-bottom: 1px solid #85c1e9;
+}
+
+body.portal-gestor main table:not(.table) tbody tr:hover {
+    background-color: rgba(214, 234, 248, 0.45);
+}
+
+body.portal-gestor input,
+body.portal-gestor select,
+body.portal-gestor textarea {
+    border-color: #85c1e9;
+}
+
+body.portal-gestor input:focus,
+body.portal-gestor select:focus,
+body.portal-gestor textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.22);
+}
+
+/* Miniaturas e modal de fotos dos chamados (todas as áreas) */
+.chamado-table-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    display: block;
+    background: #f8f9fa;
+}
+
+.chamado-sem-foto {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.38);
+    font-size: 1.25rem;
+    vertical-align: middle;
+}
+
+.chamado-thumb-btn {
+    line-height: 1;
+    text-decoration: none;
+}
+
+.chamado-foto-modal-dialog {
+    max-width: 360px;
+}
+
+.chamado-foto-modal-img {
+    max-height: 70vh;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+img.thumb-img[data-foto-modal] {
+    cursor: pointer;
 }

@@ -23,7 +23,7 @@ if(!isset($_SESSION['user_id']) || $_SESSION['user_perfil'] !== 'solicitante'){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
 </head>
-<body>
+<body class="portal-solicitante">
     <main>
         <div class="chamado rounded">
             <div class="abrir-chamado rounded p-1 text-light d-flex align-items-center">
@@ -57,7 +57,7 @@ if(!isset($_SESSION['user_id']) || $_SESSION['user_perfil'] !== 'solicitante'){
                     <label class="form-label">Foto da ocorrência</label>
                     <input type="file" id="foto" class="form-control" accept="image/*">
                 </div>
-                <button type="submit" class="btn btn-primary w-100" style="background-color: #70E689; border: none;">Registrar solicitação</button>
+                <button type="submit" class="btn btn-registrar-solicitacao w-100">Registrar solicitação</button>
             </form>
             
         </div>

@@ -11,7 +11,7 @@
 
 </head>
 
-<body>
+<body class="portal-gestor">
 
     <header>
         <div class="header-top">

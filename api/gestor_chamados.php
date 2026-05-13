@@ -15,7 +15,11 @@ $where = $status ? "WHERE c.status = '$status'" : "";
 
 $sql = "SELECT c.id_chamado, c.descricao_problema, c.status, c.prioridade,
                c.data_abertura, a.nome as ambiente_nome, b.nome as bloco_nome,
-               u.nome as solicitante_nome, t.nome as tecnico_nome
+               u.nome as solicitante_nome, t.nome as tecnico_nome,
+               (SELECT ca.caminho_arquivo FROM chamados_anexos ca
+                WHERE ca.id_chamado = c.id_chamado
+                ORDER BY (ca.tipo_anexo = 'abertura') DESC, ca.data_upload ASC, ca.id_anexo ASC
+                LIMIT 1) AS foto_caminho
         FROM chamados c
         JOIN ambientes a ON c.id_ambiente = a.id_ambiente
         JOIN blocos b ON a.id_bloco = b.id_bloco
@@ -27,6 +31,12 @@ $sql = "SELECT c.id_chamado, c.descricao_problema, c.status, c.prioridade,
                       ELSE 3 END, c.data_abertura DESC";
 
 $result = $conn->query($sql);
+
+if ($result === false) {
+    echo json_encode([]);
+    exit;
+}
+
 $chamados = $result->fetch_all(MYSQLI_ASSOC);
 
 echo json_encode($chamados);

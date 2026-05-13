@@ -19,8 +19,9 @@ $id = $_GET['id'] ?? 0;
     <title>SGM - Detalhes do Chamado</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
-<body>
+<body class="portal-gestor">
     <a href="gestor_chamados.php"><button class="voltar">Voltar</button></a> 
     <main>
        <div class="dadosetriagem">
@@ -41,49 +42,84 @@ $id = $_GET['id'] ?? 0;
                 <a href="#"><button class="reabrir">Reabrir Chamado</button></a>
             </div>
             <div class="triagemeatribuicao">
-                <div class="a">
-                    <h2>Triagem e Atribuição</h2>
-                    <hr>
-                    <br>
-                    <form id="formAtribuir">
-                        <div class="triagens">
-                            <label>Técnico</label>
-                            <select id="selectTecnico" class="triagem" required></select>
-                        </div>
-                        <br>
-                        <div class="triagens">
-                            <label>Prioridade</label>
-                            <select id="prioridade" class="triagem">
-                                <option value="baixa">Baixa</option>
-                                <option value="media">Média</option>
-                                <option value="alta">Alta</option>
-                                <option value="urgente">Urgente</option>
-                            </select>
-                        </div>
-                        <br>
-                        <div class="triagens">
-                            <label>Data Prevista</label>
-                            <input type="date" id="data_prevista" class="triagem" required>
-                        </div>
-                    </form>
-                </div>
-                <a href="#"><button type="submit" class="confirmar">Confirmar atribuição</button></a>
+    <div class="a">
+
+        <h2>Triagem e Atribuição</h2>
+
+        <hr>
+        <br>
+
+        <form id="formAtribuir">
+
+            <div class="triagens">
+                <label>Técnico</label>
+                <select id="selectTecnico" class="triagem" required></select>
             </div>
+
+            <br>
+
+            <div class="triagens">
+                <label>Prioridade</label>
+
+                <select id="prioridade" class="triagem">
+
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                    <option value="urgente">Urgente</option>
+
+                </select>
+            </div>
+
+            <br>
+
+            <div class="triagens">
+                <label>Data Prevista</label>
+
+                <input type="date"
+                       id="data_prevista"
+                       class="triagem"
+                       required>
+            </div>
+
+            <br>
+
+            <button type="submit" class="confirmar">
+                Confirmar atribuição
+            </button>
+
+        </form>
+
+    </div>
+</div>
+            
        </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="./assets/js/chamado_fotos_modal.js"></script>
     <script>
-        function verFoto(url) {
-            document.getElementById('imgModal').src = url;
-            new bootstrap.Modal(document.getElementById('modalFoto')).show();
-        }
-
         async function carregarDados() {
             // Carrega Técnicos
-            const resTec = await fetch(`api/usuarios.php`);
-            const tecnicos = await resTec.json();
+            const resTec = await fetch('api/usuarios.php');
+
+            const respostaTec = await resTec.json();
+
             const select = document.getElementById('selectTecnico');
+
             select.innerHTML = '<option value="">Selecione um técnico...</option>';
-            tecnicos.forEach(t => select.innerHTML += `<option value="${t.id_usuario}">${t.nome}</option>`);
+
+            // pega apenas os técnicos
+const tecnicos = respostaTec.data || respostaTec;
+
+tecnicos.forEach(t => {
+
+    select.innerHTML += `
+        <option value="${t.id_usuario}">
+            ${t.nome}
+        </option>
+    `;
+
+});
 
             // Carrega Chamado
             const c = await (await fetch(`api/chamados.php?id=<?= $id ?>`)).json();
@@ -101,13 +137,17 @@ $id = $_GET['id'] ?? 0;
             if(c.data_previsao_conclusao) document.getElementById('data_prevista').value = c.data_previsao_conclusao;
 
             // Carrega Fotos
-            const anexos = await (await fetch(`api/anexos.php?id_chamado=<?= $id ?>`)).json();
+            const anexosRaw = await (await fetch(`api/anexos.php?id_chamado=<?= $id ?>`)).json();
+            const anexos = Array.isArray(anexosRaw) ? anexosRaw : [];
             if(anexos.length > 0) {
                 let htmlFotos = '<hr><h6>Evidências:</h6><div class="row">';
                 anexos.forEach(arq => {
+                    const u = ChamadoFotos.urlFoto(arq.caminho_arquivo);
+                    const enc = encodeURIComponent(u);
+                    const srcEsc = u.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
                     htmlFotos += `
                         <div class="col-4 text-center mb-2">
-                            <img src="${arq.caminho_arquivo}" class="thumb-img" onclick="verFoto('${arq.caminho_arquivo}')">
+                            <img src="${srcEsc}" class="thumb-img" data-foto-modal="${enc}" alt="" style="max-width:100%;height:auto;cursor:pointer;border-radius:8px;">
                             <small class="text-muted">${arq.tipo_anexo === 'abertura' ? 'Abertura' : 'Conclusão'}</small>
                         </div>`;
                 });
@@ -148,7 +188,19 @@ $id = $_GET['id'] ?? 0;
                     data_prevista: document.getElementById('data_prevista').value
                 })
             });
-            if((await res.json()).success) window.location.href = 'gestor_chamados.php';
+            const resultado = await res.json();
+
+            if(resultado.success){
+
+                alert(resultado.message);
+
+                window.location.href = 'gestor_chamados.php';
+
+            }else{
+
+                alert(resultado.message);
+
+            }
         };
 
         carregarDados();

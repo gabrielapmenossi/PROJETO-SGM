@@ -16,7 +16,11 @@ $id_chamado = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($id_chamado > 0) {
     $sql = "SELECT c.*, a.nome as ambiente_nome, b.nome as bloco_nome, u.nome
-    as solicitante_nome, t.nome as tipo_nome
+    as solicitante_nome, t.nome as tipo_nome,
+            (SELECT ca.caminho_arquivo FROM chamados_anexos ca
+             WHERE ca.id_chamado = c.id_chamado
+             ORDER BY (ca.tipo_anexo = 'abertura') DESC, ca.data_upload ASC, ca.id_anexo ASC
+             LIMIT 1) AS foto_caminho
             FROM chamados c
             JOIN ambientes a ON c.id_ambiente = a.id_ambiente
             JOIN blocos b ON a.id_bloco = b.id_bloco
@@ -25,6 +29,10 @@ if ($id_chamado > 0) {
             WHERE c.id_chamado = $id_chamado";
    
     $result = $conn->query($sql);
+    if (!$result) {
+        echo json_encode(null);
+        exit;
+    }
     $chamado = $result->fetch_assoc();
    
     echo json_encode($chamado); // Retorna o objeto direto
@@ -35,7 +43,11 @@ if ($id_chamado > 0) {
 $where = ($perfil === 'solicitante') ? "WHERE c.id_solicitante = $user_id" : "";
 
 $sql = "SELECT c.id_chamado, c.descricao_problema, c.status, c.data_abertura,
-               a.nome as ambiente_nome, b.nome as bloco_nome
+               a.nome as ambiente_nome, b.nome as bloco_nome,
+               (SELECT ca.caminho_arquivo FROM chamados_anexos ca
+                WHERE ca.id_chamado = c.id_chamado
+                ORDER BY (ca.tipo_anexo = 'abertura') DESC, ca.data_upload ASC, ca.id_anexo ASC
+                LIMIT 1) AS foto_caminho
         FROM chamados c
         JOIN ambientes a ON c.id_ambiente = a.id_ambiente
         JOIN blocos b ON a.id_bloco = b.id_bloco
@@ -43,6 +55,12 @@ $sql = "SELECT c.id_chamado, c.descricao_problema, c.status, c.data_abertura,
         ORDER BY c.data_abertura DESC";
 
 $result = $conn->query($sql);
+
+if ($result === false) {
+    echo json_encode([]);
+    exit;
+}
+
 $chamados = $result->fetch_all(MYSQLI_ASSOC);
 
 echo json_encode($chamados);
