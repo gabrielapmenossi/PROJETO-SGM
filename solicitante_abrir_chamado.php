@@ -18,8 +18,10 @@ if(!isset($_SESSION['user_id']) || $_SESSION['user_perfil'] !== 'solicitante'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitante - Abrir chamado</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
 </head>
 <body>
     <main>
@@ -31,14 +33,14 @@ if(!isset($_SESSION['user_id']) || $_SESSION['user_perfil'] !== 'solicitante'){
             <form class="form-criar-chamado" id="formChamado">
                 <div class="mb-3">
                     <label class="form-label">Bloco</label>
-                    <select id="selectBloco" class="form-select" required onchange="carregarAmbientes(this.value)">
+                    <select id="selectBloco" class="form-select" required ">
                         <option value="">Selecione o bloco</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Ambiente / Sala</label>
                     <select id="selectAmbiente" class="form-select" required>
-                        <option value="">Selecione o bloco</option>
+                        <option value="">Selecione o ambiente</option>
                     </select>
                 </div>
                 <div class="mb-3">

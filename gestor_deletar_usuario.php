@@ -18,19 +18,235 @@
     <a href="gestor_usuarios.php"><button class="voltar">Voltar</button></a> 
     <main>
         <div class="configurarambiente">
-                <div class="a">
-                    <h2>Deletar Usuário</h2>
-                    <hr>
+
+            <div class="a">
+
+                <h2>
+                    Deletar Usuário
+                </h2>
+
+                <hr>
+
+                <br>
+
+                <form id="formUsuarios">
+
+                    <div class="triagens">
+
+                        <label>
+                            Usuário
+                        </label>
+
+                        <select
+                            id="selectUsuario"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Carregando usuários...
+                            </option>
+
+                        </select>
+
+                    </div>
+
                     <br>
-                    <form id="formAmbientes">
-                        <div class="triagens">
-                            <label>Usuário</label>
-                            <select id="selectAmbiente" class="triagem" required></select>
-                        </div>
-                        <br>
-                    </form>
-                </div>
-                <a href="#"><button type="submit" class="confirmar">Deletar Usuário</button></a>
+
+                    <button
+                        type="submit"
+                        class="confirmar"
+                        id="btnDeletar">
+
+                        Deletar Usuário
+
+                    </button>
+
+                </form>
+
             </div>
+
+        </div>
+
     </main>
+    <script>
+
+        let usuarios = [];
+
+        // =========================
+        // CARREGAR USUÁRIOS
+        // =========================
+        async function carregarUsuarios(){
+
+            try {
+
+                const res =
+                    await fetch(
+                        './api/api_usuarios.php'
+                    );
+
+                const resposta =
+                    await res.json();
+
+                console.log(resposta);
+
+                const select =
+                    document.getElementById(
+                        'selectUsuario'
+                    );
+
+                if(resposta.success){
+
+                    usuarios =
+                        resposta.data;
+
+                    select.innerHTML =
+                        '<option value="">Selecione o usuário</option>';
+
+                    usuarios.forEach(usuario => {
+
+                        select.innerHTML += `
+                            <option value="${usuario.id_usuario}">
+                                ${usuario.nome} - ${usuario.email}
+                            </option>
+                        `;
+
+                    });
+
+                } else {
+
+                    select.innerHTML = `
+                        <option value="">
+                            Erro ao carregar usuários
+                        </option>
+                    `;
+
+                    alert(resposta.message);
+
+                }
+
+            } catch(error){
+
+                console.error(error);
+
+                alert(
+                    'Erro ao conectar com o servidor.'
+                );
+
+            }
+
+        }
+
+
+        // =========================
+        // DELETAR USUÁRIO
+        // =========================
+        document.getElementById('formUsuarios')
+        .addEventListener('submit', async function(e){
+
+            e.preventDefault();
+
+            const id_usuario =
+                document.getElementById(
+                    'selectUsuario'
+                ).value;
+
+            if(!id_usuario){
+
+                alert(
+                    'Selecione um usuário.'
+                );
+
+                return;
+
+            }
+
+            const confirmar =
+                confirm(
+                    'Deseja realmente deletar este usuário?'
+                );
+
+            if(!confirmar){
+
+                return;
+
+            }
+
+            const btn =
+                document.getElementById(
+                    'btnDeletar'
+                );
+
+            btn.disabled = true;
+
+            btn.innerText =
+                'Deletando...';
+
+            try {
+
+                const res =
+                    await fetch(
+                        './api/api_usuarios.php',
+                        {
+                            method: 'DELETE',
+
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body: JSON.stringify({
+                                id_usuario: id_usuario
+                            })
+
+                        }
+                    );
+
+                const resposta =
+                    await res.json();
+
+                console.log(resposta);
+
+                alert(
+                    resposta.message
+                );
+
+                if(resposta.success){
+
+                    window.location.href =
+                        'gestor_usuarios.php';
+
+                } else {
+
+                    btn.disabled = false;
+
+                    btn.innerText =
+                        'Deletar Usuário';
+
+                }
+
+            } catch(error){
+
+                console.error(error);
+
+                alert(
+                    'Erro ao conectar com o servidor.'
+                );
+
+                btn.disabled = false;
+
+                btn.innerText =
+                    'Deletar Usuário';
+
+            }
+
+        });
+
+
+        // =========================
+        // INICIAR
+        // =========================
+        carregarUsuarios();
+
+    </script>
+
 </body>
