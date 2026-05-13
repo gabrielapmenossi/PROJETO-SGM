@@ -6,47 +6,134 @@
     <title>SGM - Configurar Tipos de Serviço</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
 </head>
 <body>
     <header>
         <div class="header-top">
-            <h2>SGM | Configurar Tipos de Serviço</h2>
+            <h5>SGM | Configurar Tipos de Serviço</h5>
         </div>
         <div class="header-top">
-            <h2 >Olá, Admin Gestor | </h2><a href="./api/logout.php"><button class="sair">Sair</button></a>
+            <h5 >Olá, Admin Gestor | </h5><a href="./api/logout.php"><button class="sair">Sair</button></a>
         </div>
     </header>
     <a href="gestor_dashboard.php"><button class="voltar">Voltar</button></a> 
     <main>
         <div class="links">
-            <a href="./gestor_criar_tipo_servico.php"><button class="configurar">
+            <a href="./gestor_criar_tipo_servico.php" class="text-decoration-none align-items-center"><button class="configurar">
                 <i class="bi bi-geo-alt"></i>
-                <h4>Criar Tipo de Serviço</h4>
+                <p>Criar Tipo de Serviço</p>
             </button></a>
-            <a href="./gestor_deletar_tipo_servico.php"><button class="configurar">
+            <a href="./gestor_deletar_tipo_servico.php" class="text-decoration-none align-items-center"><button class="configurar">
                 <i class="bi bi-geo-alt"></i>
-                <h4>Deletar Tipo de Serviço</h4>
+                <p>Deletar Tipo de Serviço</p>
             </button></a>
-            <a href="./gestor_atualizar_tipo_servico.php"><button class="configurar">
+            <a href="./gestor_atualizar_tipo_servico.php" class="text-decoration-none align-items-center"><button class="configurar">
                 <i class="bi bi-geo-alt"></i>
-                <h4>Atualizar Tipo de Serviço</h4>
+                <p>Atualizar Tipo de Serviço</p>
             </button></a>
         </div>
         <br>
-        <div class="card shadow w-100">
-            <div class="table-responsive w-100">
-                <table class="table table-hover align-middle mb-0 ">
-                    <thead class="">
+
+        <div class="w-75">
+                <table class="table table-striped table-hover rouded">
+                    <thead>
+
                         <tr>
                             <th>ID</th>
                             <th>Tipo de Serviço</th>
                             <th>Descrição</th>
                         </tr>
+
                     </thead>
-                    <tbody id="tabelaAmbientes"></tbody>
+
+                    <tbody id="tabelaTiposServico">
+
+                    </tbody>
                 </table>
             </div>
+            
             <br>
-        </div>
-    </main>
+    </main> 
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const tabelaTiposServico =
+                document.getElementById('tabelaTiposServico');
+
+            async function carregarTiposServico(){
+
+                try {
+
+                    const res =
+                        await fetch('./api/api_tipos_servico.php');
+
+                    const resposta = await res.json();
+
+                    console.log(resposta);
+
+                    if(resposta.success){
+
+                        tabelaTiposServico.innerHTML = '';
+
+                        if(resposta.data.length === 0){
+
+                            tabelaTiposServico.innerHTML = `
+                                <tr>
+                                    <td colspan="3">
+                                        Nenhum tipo de serviço encontrado.
+                                    </td>
+                                </tr>
+                            `;
+
+                            return;
+                        }
+
+                        resposta.data.forEach(tipo => {
+
+                            tabelaTiposServico.innerHTML += `
+                                <tr>
+                                    <td>${tipo.id_tipo}</td>
+                                    <td>${tipo.nome}</td>
+                                    <td>${tipo.descricao ?? ''}</td>
+                                </tr>
+                            `;
+
+                        });
+
+                    } else {
+
+                        tabelaTiposServico.innerHTML = `
+                            <tr>
+                                <td colspan="3">
+                                    Erro: ${resposta.message}
+                                </td>
+                            </tr>
+                        `;
+
+                    }
+
+                } catch(error){
+
+                    console.error(error);
+
+                    tabelaTiposServico.innerHTML = `
+                        <tr>
+                            <td colspan="3">
+                                Erro ao conectar com o servidor.
+                            </td>
+                        </tr>
+                    `;
+
+                }
+
+            }
+
+            carregarTiposServico();
+
+        });
+
+    </script>   
 </body>

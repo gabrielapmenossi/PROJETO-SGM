@@ -18,19 +18,216 @@
     <a href="gestor_tipos_servico.php"><button class="voltar">Voltar</button></a>
     <main>
         <div class="configurarambiente">
-                <div class="a">
-                    <h2>Deletar Tipo de Serviço</h2>
-                    <hr>
+
+            <div class="a">
+
+                <h2>
+                    Deletar Tipo de Serviço
+                </h2>
+
+                <hr>
+
+                <br>
+
+                <form id="formTiposServico">
+
+                    <div class="triagens">
+
+                        <label>
+                            Tipo de Serviço
+                        </label>
+
+                        <select
+                            id="selectTipo"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Carregando...
+                            </option>
+
+                        </select>
+
+                    </div>
+
                     <br>
-                    <form id="formAmbientes">
-                        <div class="triagens">
-                            <label>Tipo de Serviço</label>
-                            <select id="selectAmbiente" class="triagem" required></select>
-                        </div>
-                        <br>
-                    </form>
-                </div>
-                <a href="#"><button type="submit" class="confirmar">Deletar Tipo de Serviço</button></a>
+
+                    <button
+                        type="submit"
+                        class="confirmar"
+                        id="btnDeletar">
+
+                        Deletar Tipo de Serviço
+
+                    </button>
+
+                </form>
+
             </div>
+
+        </div>
     </main>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const selectTipo =
+                document.getElementById('selectTipo');
+
+            const form =
+                document.getElementById('formTiposServico');
+
+            // CARREGAR TIPOS
+            async function carregarTipos(){
+
+                try {
+
+                    const res =
+                        await fetch('./api/api_tipos_servico.php');
+
+                    const resposta = await res.json();
+
+                    console.log(resposta);
+
+                    // SUA API USA "sucess"
+                    if(resposta.success){
+
+                        selectTipo.innerHTML = `
+                            <option value="">
+                                Selecione o tipo de serviço
+                            </option>
+                        `;
+
+                        resposta.data.forEach(tipo => {
+
+                            const option =
+                                document.createElement('option');
+
+                            option.value = tipo.id_tipo;
+
+                            option.textContent = tipo.nome;
+
+                            selectTipo.appendChild(option);
+
+                        });
+
+                    } else {
+
+                        alert(
+                            "Erro ao carregar tipos."
+                        );
+
+                    }
+
+                } catch(error){
+
+                    console.error(error);
+
+                    alert(
+                        "Erro ao conectar com o servidor."
+                    );
+
+                }
+
+            }
+
+            carregarTipos();
+
+            // DELETAR
+            form.addEventListener('submit', async (e) => {
+
+                e.preventDefault();
+
+                const idTipo = selectTipo.value;
+
+                if(!idTipo){
+
+                    alert(
+                        "Selecione um tipo de serviço."
+                    );
+
+                    return;
+                }
+
+                const confirmar = confirm(
+                    "Deseja realmente deletar?"
+                );
+
+                if(!confirmar){
+                    return;
+                }
+
+                const btn =
+                    document.getElementById('btnDeletar');
+
+                btn.disabled = true;
+
+                btn.innerText = "Deletando...";
+
+                try {
+
+                    const res =
+                        await fetch('./api/api_tipos_servico.php', {
+
+                            method: 'DELETE',
+
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+
+                            body: JSON.stringify({
+
+                                id_tipo: idTipo
+
+                            })
+
+                        });
+
+                    const resposta = await res.json();
+
+                    console.log(resposta);
+
+                    if(resposta.success){
+
+                        alert(resposta.message);
+
+                        window.location.href =
+                            "gestor_tipos_servico.php";
+
+                    } else {
+
+                        alert(
+                            "Erro: " +
+                            resposta.message
+                        );
+
+                        btn.disabled = false;
+
+                        btn.innerText =
+                            "Deletar Tipo de Serviço";
+
+                    }
+
+                } catch(error){
+
+                    console.error(error);
+
+                    alert(
+                        "Erro ao conectar com o servidor."
+                    );
+
+                    btn.disabled = false;
+
+                    btn.innerText =
+                        "Deletar Tipo de Serviço";
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+
 </body>
