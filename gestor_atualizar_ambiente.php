@@ -18,20 +18,110 @@
     <a href="gestor_ambientes.php"><button class="voltar">Voltar</button></a> 
     <main>
         <div class="configurarambiente">
-                <div class="a">
-                    <h2>Editar Ambientes</h2>
-                    <hr>
+            <div class="a">
+                <h2>Editar Ambientes</h2>
+                <hr>
+
+                <form id="formAmbientes">
+                    <div class="triagens">
+                        <label>Ambiente</label>
+                        <select id="selectAmbiente" class="triagem" required></select>
+                    </div>
                     <br>
-                    <form id="formAmbientes">
-                        <div class="triagens">
-                            <label>Ambiente</label>
-                            <select id="selectAmbiente" class="triagem" required></select>
-                        </div>
-                        
-                        <br>
-                    </form>
-                </div>
-                <a href="#"><button type="submit" class="confirmar">Editar Ambiente</button></a>
+                    <div class="triagens">
+                        <label>Novo nome</label>
+                        <input type="text" id="nomeAmbiente" class="form-control" required>
+                    </div>
+                    <br>
+                    <div class="triagens">
+                        <label>Bloco</label>
+                        <select id="selectBloco" class="triagem" required></select>
+                    </div>
+                    <br>
+                    <button type="submit" class="confirmar">Atualizar Ambiente</button>
+                </form>
             </div>
+        </div>
     </main>
+    <script>
+        let ambientes = [];
+        let blocos = [];
+
+        async function carregarAmbientes(){
+
+            const res = await fetch("./api/api_ambientes.php");
+            const data = await res.json();
+
+            ambientes = data.data;
+
+            const select = document.getElementById("selectAmbiente");
+
+            select.innerHTML = ambientes.map(a =>
+                `<option value="${a.id_ambiente}">
+                    ${a.nome} - ${a.nome_bloco}
+                </option>`
+            ).join('');
+
+        }
+
+        async function carregarBlocos(){
+
+            const res = await fetch("api/api_blocos.php");
+            const data = await res.json();
+
+            blocos = data.data;
+
+            const select = document.getElementById("selectBloco");
+
+            select.innerHTML = blocos.map(b =>
+                `<option value="${b.id_bloco}">
+                    ${b.nome}
+                </option>`
+            ).join('');
+
+        }
+
+        document.getElementById("selectAmbiente").addEventListener("change", function(){
+
+            const id = this.value;
+
+            const ambiente = ambientes.find(a => a.id_ambiente == id);
+
+            if(ambiente){
+                document.getElementById("nomeAmbiente").value = ambiente.nome;
+                document.getElementById("selectBloco").value = ambiente.id_bloco;
+            }
+
+        });
+        document.getElementById("formAmbientes").addEventListener("submit", async function(e){
+            e.preventDefault();
+            const id = document.getElementById("selectAmbiente").value;
+            const nome = document.getElementById("nomeAmbiente").value;
+            const id_bloco = document.getElementById("selectBloco").value;
+
+            const res = await fetch("./api/api_ambientes.php", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id_ambiente: id,
+                    nome: nome,
+                    id_bloco: id_bloco
+                })
+            });
+
+            const data = await res.json();
+
+            alert(data.message);
+
+            if(data.success){
+                window.location.href = "gestor_ambientes.php";
+            }
+
+        });
+
+        carregarAmbientes();
+        carregarBlocos();
+    </script>
 </body>

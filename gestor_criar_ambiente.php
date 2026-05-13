@@ -30,7 +30,7 @@
                         <br>
                         <div class="triagens">
                             <label>Bloco</label>
-                            <select id="selectBloco" required onchange="carregarBloco(this.value)">
+                            <select id="selectBloco" class="triagem" required onchange="carregarBloco(this.value)">
                                 <option value="">Selecione o bloco</option>
                             </select>
                         </div>

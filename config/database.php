@@ -3,7 +3,8 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db   = "sgm_db";
+$db   = "sgm_db_gabrielapmenossi";
+
 
 $conn = new mysqli($host, $user, $pass, $db);
 

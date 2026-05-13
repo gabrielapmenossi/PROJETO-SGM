@@ -18,20 +18,173 @@
     <a href="gestor_blocos.php"><button class="voltar">Voltar</button></a> 
     <main>
         <div class="configurarambiente">
-                <div class="a">
-                    <h2>Editar Bloco</h2>
-                    <hr>
+            <div class="a">
+                <h2>Editar Bloco</h2>
+                <hr>
+                <br>
+                <form id="formBlocos">
+                    <div class="triagens">
+                        <label>Bloco</label>
+                        <select 
+                            id="selectBloco"
+                            class="triagem"
+                            required>
+                        </select>
+                    </div>
                     <br>
-                    <form id="formAmbientes">
-                        <div class="triagens">
-                            <label>Bloco</label>
-                            <select id="selectAmbiente" class="triagem" required></select>
-                        </div>
-                        
-                        <br>
-                    </form>
-                </div>
-                <a href="#"><button type="submit" class="confirmar">Editar Bloco</button></a>
+                    <div class="triagens">
+                        <label>Novo nome</label>
+                        <input 
+                            type="text"
+                            id="nomeBloco"
+                            class="form-control"
+                            required>
+                    </div>
+                    <br>
+                    <div class="triagens">
+                        <label>Descrição</label>
+                        <input 
+                            type="text"
+                            id="descricaoBloco"
+                            class="form-control">
+                    </div>
+                    <br>
+                    <button 
+                        type="submit"
+                        class="confirmar">
+                        Atualizar Bloco
+                    </button>
+                </form>
             </div>
+        </div>
     </main>
+    <script>
+
+        let blocos = [];
+
+        // CARREGAR BLOCOS
+        async function carregarBlocos(){
+
+            try {
+
+                const res = await fetch("./api/api_blocos.php");
+
+                const data = await res.json();
+
+                console.log(data);
+
+                blocos = data.data;
+
+                const select = document.getElementById("selectBloco");
+
+                select.innerHTML = blocos.map(bloco =>
+
+                    `<option value="${bloco.id_bloco}">
+                        ${bloco.nome}
+                    </option>`
+
+                ).join('');
+
+                // CARREGA PRIMEIRO BLOCO AUTOMATICAMENTE
+                if(blocos.length > 0){
+
+                    document.getElementById("nomeBloco").value =
+                        blocos[0].nome;
+
+                    document.getElementById("descricaoBloco").value =
+                        blocos[0].descricao ?? '';
+
+                }
+
+            } catch(error){
+
+                console.error(error);
+
+                alert("Erro ao carregar blocos.");
+
+            }
+
+        }
+
+        // TROCAR DADOS AO MUDAR SELECT
+        document.getElementById("selectBloco")
+        .addEventListener("change", function(){
+
+            const id = this.value;
+
+            const bloco = blocos.find(
+                b => b.id_bloco == id
+            );
+
+            if(bloco){
+
+                document.getElementById("nomeBloco").value =
+                    bloco.nome;
+
+                document.getElementById("descricaoBloco").value =
+                    bloco.descricao ?? '';
+
+            }
+
+        });
+
+        // ATUALIZAR BLOCO
+        document.getElementById("formBlocos")
+        .addEventListener("submit", async function(e){
+
+            e.preventDefault();
+
+            const id = document.getElementById("selectBloco").value;
+
+            const nome = document.getElementById("nomeBloco").value;
+
+            const descricao =
+                document.getElementById("descricaoBloco").value;
+
+            try {
+
+                const res = await fetch("./api/api_blocos.php", {
+
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        id_bloco: id,
+                        nome: nome,
+                        descricao: descricao
+
+                    })
+
+                });
+
+                const data = await res.json();
+
+                console.log(data);
+
+                alert(data.message);
+
+                if(data.success){
+
+                    window.location.href =
+                        "gestor_blocos.php";
+
+                }
+
+            } catch(error){
+
+                console.error(error);
+
+                alert("Erro ao atualizar bloco.");
+
+            }
+
+        });
+
+        carregarBlocos();
+
+    </script>
 </body>

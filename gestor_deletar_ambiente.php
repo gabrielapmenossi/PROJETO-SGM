@@ -22,15 +22,17 @@
                     <h2>Deletar Ambientes</h2>
                     <hr>
                     <br>
-                    <form id="formAmbientes">
+                    <form id="formDeletarAmbiente">
                         <div class="triagens">
                             <label>Ambiente</label>
                             <select id="selectAmbiente" class="triagem" required></select>
                         </div>
                         <br>
+                        <button id="btnDeletar" type="submit" class="confirmar">
+                            Deletar Ambiente
+                        </button>
                     </form>
                 </div>
-                <a href="./gestor_ambientes.php"><button type="submit" class="confirmar">Deletar Ambiente</button></a>
             </div>
     </main>
     <script>

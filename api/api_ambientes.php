@@ -42,10 +42,9 @@ switch ($method){
         break;
     case 'PUT':
         $data = json_decode(file_get_contents("php://input"));
-
-        if(!isset($data->id_bloco)){
-            echo json_encode(["success" => false, "message" => "Dados incompletos para atualização. "]);
-            exit;
+        if(!isset($data->id_ambiente) || !isset($data->nome) || !isset($data->id_bloco)){
+        echo json_encode(["success" => false, "message" => "Dados incompletos para atualização."]);
+        exit;
         }
         $id_ambiente = (int)$data->id_ambiente;
         $nome = $conn->real_escape_string(trim($data->nome));
@@ -54,7 +53,7 @@ switch ($method){
         if($conn->query($sql) === true){
             echo json_encode(["success" => true, "message" => "Ambiente atualizado com sucesso! " . $conn->error]);
         } else {
-            echo json_encode(["success" => false, "message" => "Erro ao atualizar ambiente: " . $con->error]);
+            echo json_encode(["success" => false, "message" => "Erro ao atualizar ambiente: " . $conn->error]);
         }
         break;
     case 'DELETE':
