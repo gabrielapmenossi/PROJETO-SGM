@@ -1,184 +1,200 @@
-<?php
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['user_perfil'] !== 'tecnico') {
-    header('Location: login.php');
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGM - Minha Agenda</title>
+    <title>SGM - Painel do Técnico</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* Ajuste do Header para ficar alinhado no celular */
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        @media (max-width: 576px) {
+            header { flex-direction: column; text-align: center; gap: 10px; }
+            .header-top h2 { font-size: 1.2rem; }
+            
+            /* ==== CORREÇÃO DA SAUDAÇÃO NO MOBILE ==== */
+            .saudacao-container {
+                flex-wrap: nowrap !important; /* Força a ficar na mesma linha */
+                justify-content: center;
+            }
+            .saudacao-container h2 {
+                font-size: 0.95rem; /* Diminui a fonte levemente para caber o nome longo */
+                white-space: nowrap; /* Impede o "|" de cair para a linha de baixo */
+            }
+        }
+
+        /* ========================================================================
+           TABELA RESPONSIVA (VIRA CARDS NO CELULAR)
+           ======================================================================== */
+        @media (max-width: 768px) {
+            #tabelaChamados, #tabelaChamados thead, #tabelaChamados tbody, #tabelaChamados tr, #tabelaChamados td {
+                display: block;
+                width: 100%;
+            }
+
+            #tabelaChamados thead {
+                display: none;
+            }
+
+            #tabelaChamados tr {
+                margin-bottom: 20px;
+                border: 1px solid #dee2e6;
+                border-radius: 10px;
+                background-color: #fff;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+                overflow: hidden;
+                padding: 5px 0;
+            }
+
+            #tabelaChamados td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 15px !important;
+                border-bottom: 1px solid #f2f2f2;
+                text-align: right;
+                word-break: break-word;
+            }
+
+            #tabelaChamados td:last-child {
+                border-bottom: none;
+            }
+
+            #tabelaChamados td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #A22C5B;
+                text-align: left;
+                padding-right: 10px;
+                min-width: 90px;
+                display: inline-block;
+            }
+
+            #tabelaChamados td > * {
+                max-width: 65%; 
+            }
+        }
+    </style>
 </head>
-<body class="portal-tecnico">
+<body class="portal-solicitante">
     <header>
         <div class="header-top">
-            <h2>SGM | Gestão de Técnico</h2>
+            <h2>SGM | Painel do Solicitante</h2>
         </div>
-        <div class="header-top">
-            <h2>Olá, <?= htmlspecialchars($_SESSION['user_nome'] ?? 'Técnico', ENT_QUOTES, 'UTF-8') ?> | </h2><a href="./api/logout.php"><button class="sair">Sair</button></a>
+        <div class="header-top d-flex align-items-center gap-2 saudacao-container">
+            <h2 class="m-0">Olá, Técnico | </h2>
+            <a href="./api/logout.php" class="text-decoration-none"><button class="sair btn btn-danger btn-sm">Sair</button></a>
         </div>
-    </header>
-    <main>
-        <h3>Minha Fila de Trabalho</h3>
+   </header>
 
-    <div class="card shadow mt-3">
+    <main class="container-fluid py-4">
+        <div class="minhassolicitacoes mb-4">
+            <h3>Chamados Atribuídos a Mim</h3>
+        </div>
 
-        <div class="table-responsive">
-
-            <table class="table table-hover align-middle mb-0">
-
-                <thead>
+        <div class="solicitacoes">
+            <table cellspacing="0" cellpadding="0" id="tabelaChamados" class="table table-hover">
+                <thead class="thtecnico table-light">
                     <tr>
                         <th>ID</th>
                         <th>Foto</th>
                         <th>Local</th>
-                        <th>Tipo</th>
-                        <th>Prioridade</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
                         <th>Status</th>
-                        <th>Previsão</th>
-                        <th>Situação</th>
                     </tr>
                 </thead>
-
-                <tbody id="tabelaChamados"></tbody>
-
+                <tbody id="listaChamados">
+                    </tbody>
             </table>
-
         </div>
-
-    </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <div class="modal fade" id="modalDescricao" tabindex="-1" aria-labelledby="modalDescricaoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDescricaoLabel">Descrição Completa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="textoDescricaoCompleta" class="text-break" style="white-space: pre-wrap; color: #333;"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/chamado_fotos_modal.js"></script>
     <script>
+        window.abrirModalDescricao = function(textoCodificado) {
+            const texto = decodeURIComponent(textoCodificado);
+            document.getElementById('textoDescricaoCompleta').textContent = texto;
+            const modal = new bootstrap.Modal(document.getElementById('modalDescricao'));
+            modal.show();
+        };
 
-const rotuloStatus = {
-    aberto: 'Aberto',
-    agendado: 'Pendente',
-    em_execucao: 'Em execução',
-    concluido: 'Finalizada',
-    fechado: 'Fechado',
-    cancelado: 'Cancelado'
-};
+        async function carregarChamados() {
+            const lista = document.getElementById('listaChamados');
+            try {
+                const res = await fetch('api/chamados.php');
+                const data = await res.json();
+                const chamados = Array.isArray(data) ? data : [];
+                
+                if (data && data.success === false) {
+                    lista.innerHTML = '<tr><td colspan="6" class="text-center">Acesso negado.</td></tr>';
+                    return;
+                }
 
-function celulaAcaoStatus(c) {
-    const bloqueado = c.status === 'fechado' || c.status === 'cancelado';
-    if (bloqueado) {
-        return '<span class="tecnico-status-bloqueado">—</span>';
-    }
-    const s = c.status;
-    const selPend = (s === 'agendado' || s === 'aberto') ? ' selected' : '';
-    const selExec = (s === 'em_execucao') ? ' selected' : '';
-    const selFin = (s === 'concluido') ? ' selected' : '';
-    return `
-        <div class="tecnico-acao-status">
-            <select class="tecnico-select-status" aria-label="Novo status do chamado #${c.id_chamado}">
-                <option value="agendado"${selPend}>Pendente</option>
-                <option value="em_execucao"${selExec}>Em execução</option>
-                <option value="concluido"${selFin}>Finalizada</option>
-            </select>
-            <button type="button" class="btn-tecnico-atualizar-status">Salvar</button>
-        </div>`;
-}
+                if (chamados.length === 0) {
+                    lista.innerHTML = '<tr><td colspan="6" class="text-center">Nenhum chamado atribuído.</td></tr>';
+                    return;
+                }
+                
+                const cores = { 'aberto': 'bg-secondary', 'agendado': 'bg-info', 'em_execucao': 'bg-warning', 'concluido': 'bg-success', 'fechado': 'bg-dark', 'cancelado': 'bg-dark' };
 
-async function carregarChamados(){
+                lista.innerHTML = chamados.map(function (c) {
+                    const desc = (c.descricao_problema || '');
+                    const descShort = desc.length > 25 ? desc.substring(0, 25) + '...' : desc;
+                    const descEnc = encodeURIComponent(desc);
+                    
+                    const linkDesc = `<a href="javascript:void(0)" 
+                                         onclick="abrirModalDescricao('${descEnc}')" 
+                                         class="text-decoration-none text-dark" 
+                                         style="cursor: pointer;">${descShort}</a>`;
 
-    try{
-
-        const res = await fetch('api/tecnico_chamados.php');
-
-        const data = await res.json();
-        const chamados = Array.isArray(data) ? data : [];
-
-        const tabela = document.getElementById('tabelaChamados');
-
-        if(chamados.length === 0){
-
-            tabela.innerHTML = `
-                <tr>
-                    <td colspan="8" class="text-center">
-                        Nenhuma tarefa pendente!
-                    </td>
-                </tr>
-            `;
-
-            return;
+                    const st = c.status || '';
+                    const badge = cores[st] || 'bg-secondary';
+                    
+                    // ATENÇÃO AQUI: Foram adicionados os atributos data-label="..." nas tags <td>
+                    return `<tr>
+                        <td data-label="ID"><strong>#${c.id_chamado}</strong></td>
+                        <td data-label="Foto">${ChamadoFotos.celulaMiniatura(c.foto_caminho)}</td>
+                        <td data-label="Local">${c.bloco_nome || ''} - ${c.ambiente_nome || ''}</td>
+                        <td data-label="Descrição">${linkDesc}</td>
+                        <td data-label="Data">${new Date(c.data_abertura).toLocaleDateString('pt-BR')}</td>
+                        <td data-label="Status"><span class="badge ${badge}">${st.toUpperCase().replace('_', ' ')}</span></td>
+                    </tr>`;
+                }).join('');
+            } catch (e) {
+                console.error(e);
+                lista.innerHTML = '<tr><td colspan="6" class="text-center">Erro ao carregar dados.</td></tr>';
+            }
         }
-
-        tabela.innerHTML = chamados.map(c => `
-
-            <tr data-id-chamado="${c.id_chamado}">
-
-                <td>#${c.id_chamado}</td>
-
-                <td>${ChamadoFotos.celulaMiniatura(c.foto_caminho)}</td>
-
-                <td>
-                    ${c.bloco_nome}<br>
-                    <strong>${c.ambiente_nome}</strong>
-                </td>
-
-                <td>${c.tipo_nome}</td>
-
-                <td>${c.prioridade}</td>
-
-                <td class="tecnico-celula-status">${rotuloStatus[c.status] || c.status}</td>
-
-                <td>${c.data_previsao_conclusao ?? '-'}</td>
-
-                <td class="tecnico-celula-acao">${celulaAcaoStatus(c)}</td>
-
-            </tr>
-
-        `).join('');
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Erro ao carregar chamados.");
-
-    }
-
-}
-
-document.getElementById('tabelaChamados').addEventListener('click', async (e) => {
-    const btn = e.target.closest('.btn-tecnico-atualizar-status');
-    if (!btn) return;
-    const tr = btn.closest('tr');
-    const id = tr.getAttribute('data-id-chamado');
-    const sel = tr.querySelector('.tecnico-select-status');
-    if (!id || !sel) return;
-    const status = sel.value;
-    btn.disabled = true;
-    try {
-        const res = await fetch('api/tecnico_atualizar_status.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id_chamado: Number(id), status })
-        });
-        const json = await res.json();
-        if (json.success) {
-            await carregarChamados();
-        } else {
-            alert(json.message || 'Não foi possível atualizar o status.');
-        }
-    } catch (err) {
-        console.error(err);
-        alert('Erro de rede ao atualizar o status.');
-    } finally {
-        btn.disabled = false;
-    }
-});
-
-carregarChamados();
-
-</script>
+        carregarChamados();
+    </script>
 </body>
 </html>

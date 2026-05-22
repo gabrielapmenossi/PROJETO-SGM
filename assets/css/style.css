@@ -611,6 +611,13 @@ body.portal-tecnico .tecnico-status-bloqueado {
     opacity: 0.5;
 }
 
+body.portal-tecnico .tecnico-descricao {
+    display: inline-block;
+    max-width: 220px;
+    line-height: 1.35;
+    word-break: break-word;
+}
+
 /* --- Portal do gestor (azul bebê, mesmo padrão dos outros portais) --- */
 body.portal-gestor {
     background: linear-gradient(160deg, #f0f9ff 0%, #dbeefe 42%, #b8d9f0 100%);

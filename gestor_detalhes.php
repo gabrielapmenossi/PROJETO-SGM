@@ -34,10 +34,7 @@ $id = $_GET['id'] ?? 0;
                     <hr>
                     <div id="detalhesChamado" class="card-body">Carregando...</div>
                 </div>
-                    <div class="evidencias">
-                        <p>Evidências</p>
-                        <img src="./docs/telas/gestor_atribuir_chamado.png" alt="">
-                    </div>
+                   
                 </div>
                 <a href="#"><button class="reabrir">Reabrir Chamado</button></a>
             </div>
@@ -123,9 +120,11 @@ tecnicos.forEach(t => {
 
             // Carrega Chamado
             const c = await (await fetch(`api/chamados.php?id=<?= $id ?>`)).json();
+            
+            // Aqui as classes text-break, pre-wrap e word-wrap são aplicadas na Descrição para não quebrar a tela para a direita
             document.getElementById('detalhesChamado').innerHTML = `
                 <p><strong>Status:</strong> <span class="badge bg-secondary">${c.status.toUpperCase()}</span></p>
-                <p><strong>Descrição:</strong> ${c.descricao_problema}</p>
+                <p class="text-break" style="word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;"><strong>Descrição:</strong> ${c.descricao_problema}</p>
                 <p><strong>Local:</strong> ${c.bloco_nome} - ${c.ambiente_nome}</p>
                 <p><strong>Solicitante:</strong> ${c.solicitante_nome}</p>
                 <p><strong>Abertura:</strong> ${new Date(c.data_abertura).toLocaleString()}</p>

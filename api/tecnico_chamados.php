@@ -19,6 +19,7 @@ $id_tecnico = $_SESSION['user_id'];
 $sql = "
     SELECT
         c.id_chamado,
+        c.descricao_problema,
         c.prioridade,
         c.status,
         c.data_previsao_conclusao,

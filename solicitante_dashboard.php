@@ -6,75 +6,182 @@
     <title>SGM - Meus Chamados</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Ajuste do Header para ficar alinhado no celular */
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        @media (max-width: 576px) {
+            header { flex-direction: column; text-align: center; gap: 10px; }
+            .header-top h2 { font-size: 1.2rem; }
+            
+            /* ==== CORREÇÃO DA SAUDAÇÃO NO MOBILE ==== */
+            .saudacao-container {
+                flex-wrap: nowrap !important; /* Força a ficar na mesma linha */
+                justify-content: center;
+            }
+            .saudacao-container h2 {
+                font-size: 0.95rem; /* Diminui a fonte levemente para caber o nome longo */
+                white-space: nowrap; /* Impede o "|" de cair para a linha de baixo */
+            }
+        }
+
+        /* ========================================================================
+           TABELA RESPONSIVA (VIRA CARDS NO CELULAR)
+           ======================================================================== */
+        @media (max-width: 768px) {
+            #tabelaChamados, #tabelaChamados thead, #tabelaChamados tbody, #tabelaChamados tr, #tabelaChamados td {
+                display: block;
+                width: 100%;
+            }
+
+            #tabelaChamados thead {
+                display: none;
+            }
+
+            #tabelaChamados tr {
+                margin-bottom: 20px;
+                border: 1px solid #dee2e6;
+                border-radius: 10px;
+                background-color: #fff;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+                overflow: hidden;
+                padding: 5px 0;
+            }
+
+            #tabelaChamados td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 15px !important;
+                border-bottom: 1px solid #f2f2f2;
+                text-align: right;
+                word-break: break-word;
+            }
+
+            #tabelaChamados td:last-child {
+                border-bottom: none;
+            }
+
+            #tabelaChamados td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #A22C5B;
+                text-align: left;
+                padding-right: 10px;
+                min-width: 90px;
+                display: inline-block;
+            }
+
+            #tabelaChamados td > * {
+                max-width: 65%; 
+            }
+        }
+    </style>
 </head>
 <body class="portal-solicitante">
     <header>
         <div class="header-top">
             <h2>SGM | Painel do Solicitante</h2>
         </div>
-        <div class="header-top">
-            <h2>Olá, Maria Solicitante | </h2><a href="./api/logout.php"><button class="sair">Sair</button></a>
+        <div class="header-top d-flex align-items-center gap-2 saudacao-container">
+            <h2 class="m-0">Olá, Maria Solicitante | </h2>
+            <a href="./api/logout.php" class="text-decoration-none"><button class="sair btn btn-danger btn-sm">Sair</button></a>
         </div>
    </header>
-   <main>
-        <div class="minhassolicitacoes">
-            <h3>Minhas Solicitações</h3>
-            <a href="./solicitante_abrir_chamado.php"><button class="novasolicitacao"> + Nova Solicitaçao</button></a>
+   <main class="container-fluid py-3">
+        <div class="minhassolicitacoes mb-3">
+            <h3 class="h4">Minhas Solicitações</h3>
+            <a href="./solicitante_abrir_chamado.php"><button class="novasolicitacao w-100 w-sm-auto mt-2"> + Nova Solicitação</button></a>
         </div>
         <div class="solicitacoes">
-            <table cellspacing="0" cellpadding="0" id="tabelaChamados">
+            <table id="tabelaChamados" class="table align-middle">
                 <thead class="thsolicitante">
-                    <th>ID</th>
-                    <th>Foto</th>
-                    <th>Local</th>
-                    <th>Descrição</th>
-                    <th>Data</th>
-                    <th>Status</th>
+                    <tr>
+                        <th>ID</th>
+                        <th>Foto</th>
+                        <th>Local</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
                 </thead>
                 <tbody id="listaChamados">
-                    <tr>
-                    </tr>
-                </tbody>
+                    </tbody>
             </table>
         </div>
    </main>
 
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+   <div class="modal fade" id="modalDescricao" tabindex="-1" aria-hidden="true">
+       <div class="modal-dialog modal-dialog-centered">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Descrição Completa</h5>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+               </div>
+               <div class="modal-body">
+                   <p id="textoDescricaoCompleta" class="text-break" style="white-space: pre-wrap; color: #333;"></p>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
    <script src="./assets/js/chamado_fotos_modal.js"></script>
    <script>
-        async function carregarChamados() {
-            const lista = document.getElementById('listaChamados');
-            try {
-                const res = await fetch('api/chamados.php');
-                const data = await res.json();
-                const chamados = Array.isArray(data) ? data : [];
-                if (!Array.isArray(data) && data && data.success === false) {
-                    lista.innerHTML = '<tr><td colspan="6">Acesso negado.</td></tr>';
-                    return;
-                }
-                const cores = { 'aberto': 'bg-secondary', 'agendado': 'bg-info', 'em_execucao': 'bg-warning', 'concluido': 'bg-success', 'fechado': 'bg-dark', 'cancelado': 'bg-dark' };
+       window.abrirModalDescricao = function(textoCodificado) {
+           const texto = decodeURIComponent(textoCodificado);
+           document.getElementById('textoDescricaoCompleta').textContent = texto;
+           new bootstrap.Modal(document.getElementById('modalDescricao')).show();
+       };
 
-                lista.innerHTML = chamados.map(function (c) {
-                    const desc = (c.descricao_problema || '');
-                    const descShort = desc.length > 30 ? desc.substring(0, 30) + '...' : desc;
-                    const st = c.status || '';
-                    const badge = cores[st] || 'bg-secondary';
-                    return '<tr>' +
-                        '<td>#' + c.id_chamado + '</td>' +
-                        '<td>' + ChamadoFotos.celulaMiniatura(c.foto_caminho) + '</td>' +
-                        '<td>' + (c.bloco_nome || '') + ' - ' + (c.ambiente_nome || '') + '</td>' +
-                        '<td>' + descShort + '</td>' +
-                        '<td>' + new Date(c.data_abertura).toLocaleDateString() + '</td>' +
-                        '<td><span class="badge ' + badge + '">' + st.toUpperCase() + '</span></td>' +
-                        '</tr>';
-                }).join('');
-            } catch (e) {
-                console.error(e);
-                lista.innerHTML = '<tr><td colspan="6">Erro ao carregar chamados.</td></tr>';
-            }
-        }
-        carregarChamados();
+       async function carregarChamados() {
+           const lista = document.getElementById('listaChamados');
+           try {
+               const res = await fetch('api/chamados.php');
+               const data = await res.json();
+               const chamados = Array.isArray(data) ? data : [];
+               
+               if (data && data.success === false) {
+                   lista.innerHTML = '<tr><td colspan="6" class="text-center">Acesso negado.</td></tr>';
+                   return;
+               }
+
+               const cores = { 'aberto': 'bg-secondary', 'agendado': 'bg-info', 'em_execucao': 'bg-warning', 'concluido': 'bg-success', 'fechado': 'bg-dark', 'cancelado': 'bg-dark' };
+
+               lista.innerHTML = chamados.map(function (c) {
+                   const desc = (c.descricao_problema || '');
+                   const descShort = desc.length > 25 ? desc.substring(0, 25) + '...' : desc;
+                   const descEnc = encodeURIComponent(desc);
+                   
+                   const linkDesc = `<a href="javascript:void(0)" onclick="abrirModalDescricao('${descEnc}')" class="text-decoration-none text-dark">${descShort}</a>`;
+                   const st = c.status || '';
+                   const badge = cores[st] || 'bg-secondary';
+                   
+                   return `<tr>
+                       <td data-label="ID">#${c.id_chamado}</td>
+                       <td data-label="Foto">${ChamadoFotos.celulaMiniatura(c.foto_caminho)}</td>
+                       <td data-label="Local">${c.bloco_nome || ''} - ${c.ambiente_nome || ''}</td>
+                       <td data-label="Descrição">${linkDesc}</td>
+                       <td data-label="Data">${new Date(c.data_abertura).toLocaleDateString()}</td>
+                       <td data-label="Status"><span class="badge ${badge}">${st.toUpperCase()}</span></td>
+                   </tr>`;
+               }).join('');
+           } catch (e) {
+               lista.innerHTML = '<tr><td colspan="6" class="text-center">Erro ao carregar.</td></tr>';
+           }
+       }
+       carregarChamados();
    </script>
 </body>
 </html>
