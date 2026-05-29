@@ -134,14 +134,17 @@
                 text-align: center !important;
             }
 
-            .configurarambiente {
-                padding: 15px !important;
-            }
+            
 
             .a {
                 padding: 20px !important;
                 box-shadow: none !important;
                 border: 1px solid #eee !important;
+            }
+            
+            .configurarambiente {
+                padding: 15px !important;
+                width: 80% !important; 
             }
         }
     </style>

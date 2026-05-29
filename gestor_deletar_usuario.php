@@ -148,6 +148,11 @@
                 max-width: 100% !important;
             }
 
+            .configurarambiente {
+                padding: 15px !important;
+                width: 80% !important; 
+            }
+
             .voltar {
                 display: block !important;
                 width: calc(100% - 40px) !important;

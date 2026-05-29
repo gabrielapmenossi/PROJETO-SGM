@@ -145,7 +145,10 @@
 
             .a {
                 padding: 25px 20px !important;
-                max-width: 100% !important;
+            }
+            .configurarambiente {
+                padding: 15px !important;
+                width: 80% !important; 
             }
 
             .voltar {

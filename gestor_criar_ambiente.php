@@ -141,6 +141,7 @@
 
             .configurarambiente {
                 padding: 15px !important;
+                width: 80% !important; 
             }
 
             .a {

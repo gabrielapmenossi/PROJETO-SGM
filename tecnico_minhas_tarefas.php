@@ -89,7 +89,7 @@
 <body class="portal-solicitante">
     <header>
         <div class="header-top">
-            <h2>SGM | Painel do Solicitante</h2>
+            <h2>SGM | Painel do Técnico</h2>
         </div>
         <div class="header-top d-flex align-items-center gap-2 saudacao-container">
             <h2 class="m-0">Olá, Técnico | </h2>
@@ -140,61 +140,87 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/chamado_fotos_modal.js"></script>
     <script>
-        window.abrirModalDescricao = function(textoCodificado) {
-            const texto = decodeURIComponent(textoCodificado);
-            document.getElementById('textoDescricaoCompleta').textContent = texto;
-            const modal = new bootstrap.Modal(document.getElementById('modalDescricao'));
-            modal.show();
-        };
+    window.abrirModalDescricao = function(textoCodificado) {
+        const texto = decodeURIComponent(textoCodificado);
+        document.getElementById('textoDescricaoCompleta').textContent = texto;
+        const modal = new bootstrap.Modal(document.getElementById('modalDescricao'));
+        modal.show();
+    };
 
-        async function carregarChamados() {
-            const lista = document.getElementById('listaChamados');
-            try {
-                const res = await fetch('api/chamados.php');
-                const data = await res.json();
-                const chamados = Array.isArray(data) ? data : [];
-                
-                if (data && data.success === false) {
-                    lista.innerHTML = '<tr><td colspan="6" class="text-center">Acesso negado.</td></tr>';
-                    return;
-                }
-
-                if (chamados.length === 0) {
-                    lista.innerHTML = '<tr><td colspan="6" class="text-center">Nenhum chamado atribuído.</td></tr>';
-                    return;
-                }
-                
-                const cores = { 'aberto': 'bg-secondary', 'agendado': 'bg-info', 'em_execucao': 'bg-warning', 'concluido': 'bg-success', 'fechado': 'bg-dark', 'cancelado': 'bg-dark' };
-
-                lista.innerHTML = chamados.map(function (c) {
-                    const desc = (c.descricao_problema || '');
-                    const descShort = desc.length > 25 ? desc.substring(0, 25) + '...' : desc;
-                    const descEnc = encodeURIComponent(desc);
-                    
-                    const linkDesc = `<a href="javascript:void(0)" 
-                                         onclick="abrirModalDescricao('${descEnc}')" 
-                                         class="text-decoration-none text-dark" 
-                                         style="cursor: pointer;">${descShort}</a>`;
-
-                    const st = c.status || '';
-                    const badge = cores[st] || 'bg-secondary';
-                    
-                    // ATENÇÃO AQUI: Foram adicionados os atributos data-label="..." nas tags <td>
-                    return `<tr>
-                        <td data-label="ID"><strong>#${c.id_chamado}</strong></td>
-                        <td data-label="Foto">${ChamadoFotos.celulaMiniatura(c.foto_caminho)}</td>
-                        <td data-label="Local">${c.bloco_nome || ''} - ${c.ambiente_nome || ''}</td>
-                        <td data-label="Descrição">${linkDesc}</td>
-                        <td data-label="Data">${new Date(c.data_abertura).toLocaleDateString('pt-BR')}</td>
-                        <td data-label="Status"><span class="badge ${badge}">${st.toUpperCase().replace('_', ' ')}</span></td>
-                    </tr>`;
-                }).join('');
-            } catch (e) {
-                console.error(e);
-                lista.innerHTML = '<tr><td colspan="6" class="text-center">Erro ao carregar dados.</td></tr>';
+    // FUNÇÃO PARA ATUALIZAR STATUS
+    async function atualizarStatus(idChamado, novoStatus) {
+        try {
+            // Ajustado para o nome do seu arquivo e pasta correta
+            const res = await fetch('api/tecnico_atualizar_status.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    id_chamado: idChamado, // Nome corrigido para bater com o PHP
+                    status: novoStatus 
+                })
+            });
+            
+            const data = await res.json();
+            
+            if (data.success) {
+                alert('Status atualizado com sucesso!');
+                carregarChamados(); // Recarrega a lista para atualizar as cores
+            } else {
+                alert('Erro: ' + data.message);
             }
+        } catch (e) {
+            console.error(e);
+            alert('Erro de conexão ao tentar atualizar o status.');
         }
-        carregarChamados();
-    </script>
+    }
+
+    async function carregarChamados() {
+        const lista = document.getElementById('listaChamados');
+        try {
+            const res = await fetch('api/chamados.php');
+            const data = await res.json();
+            const chamados = Array.isArray(data) ? data : [];
+            
+            if (chamados.length === 0) {
+                lista.innerHTML = '<tr><td colspan="6" class="text-center">Nenhum chamado atribuído.</td></tr>';
+                return;
+            }
+            
+            lista.innerHTML = chamados.map(function (c) {
+                const descEnc = encodeURIComponent(c.descricao_problema || '');
+                const descShort = c.descricao_problema?.length > 25 ? c.descricao_problema.substring(0, 25) + '...' : c.descricao_problema;
+                const st = c.status || 'agendado';
+
+                // Cores dinâmicas para o select
+                let corSelect = "#6c757d"; // Pendente
+                if(st === 'em_execucao') corSelect = "#ffc107"; // Andamento
+                if(st === 'concluido') corSelect = "#198754"; // Concluído
+
+                return `<tr>
+                    <td data-label="ID"><strong>#${c.id_chamado}</strong></td>
+                    <td data-label="Foto">${ChamadoFotos.celulaMiniatura(c.foto_caminho)}</td>
+                    <td data-label="Local">${c.bloco_nome || ''} - ${c.ambiente_nome || ''}</td>
+                    <td data-label="Descrição">
+                        <a href="javascript:void(0)" onclick="abrirModalDescricao('${descEnc}')" class="text-decoration-none text-dark">${descShort}</a>
+                    </td>
+                    <td data-label="Data">${new Date(c.data_abertura).toLocaleDateString('pt-BR')}</td>
+                    <td data-label="Status">
+                        <select class="form-select form-select-sm" 
+                                style="font-weight:bold; color: white; background-color: ${corSelect}"
+                                onchange="atualizarStatus(${c.id_chamado}, this.value)">
+                            <option value="agendado" ${st === 'agendado' ? 'selected' : ''}>Pendente</option>
+                            <option value="em_execucao" ${st === 'em_execucao' ? 'selected' : ''}>Em Andamento</option>
+                            <option value="concluido" ${st === 'concluido' ? 'selected' : ''}>Concluído</option>
+                        </select>
+                    </td>
+                </tr>`;
+            }).join('');
+        } catch (e) {
+            console.error(e);
+            lista.innerHTML = '<tr><td colspan="6" class="text-center">Erro ao carregar dados.</td></tr>';
+        }
+    }
+    carregarChamados();
+</script>
 </body>
 </html>

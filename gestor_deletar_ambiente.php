@@ -120,10 +120,6 @@
                 text-align: center !important;
             }
 
-            .configurarambiente {
-                padding: 15px !important;
-            }
-
             .a {
                 padding: 20px !important;
                 border-radius: 10px !important;
@@ -134,8 +130,19 @@
                 box-sizing: border-box !important;
             }
 
+            .configurarambiente {
+                padding: 15px !important;
+                width: 80% !important; 
+            }
+
             /* Ajustes nos inputs para melhor uso com os dedos no mobile */
-            .form-select, .triagem {
+            .form-select {
+                height: 50px !important;
+                font-size: 16px !important; 
+                width: 155px !important; /* Força largura maior para evitar zoom, mas será ajustado pelo container */
+            }
+            
+            .triagem {
                 height: 50px !important;
                 font-size: 16px !important; 
                 width: 100% !important;

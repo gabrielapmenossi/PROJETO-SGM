@@ -119,10 +119,6 @@
                 text-align: center !important;
             }
 
-            .configurarambiente {
-                padding: 15px !important;
-            }
-
             .a {
                 padding: 20px !important;
                 border-radius: 10px !important;
@@ -133,10 +129,16 @@
                 box-sizing: border-box !important;
             }
 
+            .configurarambiente {
+                padding: 15px !important;
+                width: 80% !important; 
+            }
+
             /* Melhora o Select para evitar zoom automático no iPhone */
             .form-select {
                 height: 50px !important;
                 font-size: 16px !important; 
+                width: 185px !important; /* Força largura maior para evitar zoom, mas será ajustado pelo container */
             }
 
             .confirmar {
@@ -157,7 +159,7 @@
         </div>
     </header>
 
-    <a href="gestor_ambientes.php"><button class="voltar">Voltar</button></a> 
+    <a href="gestor_blocos.php"><button class="voltar">Voltar</button></a> 
 
     <main>
         <div class="configurarambiente">

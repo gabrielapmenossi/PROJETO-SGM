@@ -119,10 +119,6 @@
                 text-align: center !important;
             }
 
-            .configurarambiente {
-                padding: 15px !important;
-            }
-
             .a {
                 padding: 20px !important;
                 border-radius: 8px !important;
@@ -133,10 +129,16 @@
                 box-sizing: border-box !important;
             }
 
+            .configurarambiente {
+                padding: 15px !important;
+                width: 80% !important; 
+            }
+
             /* Evita zoom automático no iPhone ao clicar no Select */
             .form-select {
                 height: 50px !important;
                 font-size: 16px !important; 
+                width: 170px !important; /* Força largura maior para evitar zoom, mas será ajustado pelo container */
             }
 
             .confirmar {
