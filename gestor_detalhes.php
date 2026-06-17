@@ -36,7 +36,12 @@ $id = $_GET['id'] ?? 0;
                 </div>
                    
                 </div>
-                <a href="#"><button class="reabrir">Reabrir Chamado</button></a>
+                <button
+                    type="button"
+                    class="reabrir"
+                    onclick="reabrirChamado(<?= $id ?>)">
+                    Reabrir Chamado
+                </button>
             </div>
             <div class="triagemeatribuicao">
     <div class="a">
@@ -95,6 +100,36 @@ $id = $_GET['id'] ?? 0;
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="./assets/js/chamado_fotos_modal.js"></script>
     <script>
+        async function reabrirChamado(id) {
+
+    if (!confirm('Deseja realmente reabrir este chamado?')) {
+        return;
+    }
+
+    const res = await fetch('api/reabrir_chamado.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id_chamado: id
+        })
+    });
+
+    const resultado = await res.json();
+
+    if (resultado.success) {
+
+        alert(resultado.message);
+
+        window.location.href = 'gestor_chamados.php';
+
+    } else {
+
+        alert(resultado.message);
+
+    }
+}
         async function carregarDados() {
             // Carrega Técnicos
             const resTec = await fetch('api/usuarios.php');
@@ -124,7 +159,14 @@ tecnicos.forEach(t => {
             // Aqui as classes text-break, pre-wrap e word-wrap são aplicadas na Descrição para não quebrar a tela para a direita
             document.getElementById('detalhesChamado').innerHTML = `
                 <p><strong>Status:</strong> <span class="badge bg-secondary">${c.status.toUpperCase()}</span></p>
-                <p class="text-break" style="word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;"><strong>Descrição:</strong> ${c.descricao_problema}</p>
+                <p
+                    style="
+                        max-width: 100%;
+                        overflow-wrap: anywhere;
+                        word-break: break-word;
+                        white-space: pre-wrap;
+                    "><strong>Descrição:</strong> ${c.descricao_problema}
+                </p>
                 <p><strong>Local:</strong> ${c.bloco_nome} - ${c.ambiente_nome}</p>
                 <p><strong>Solicitante:</strong> ${c.solicitante_nome}</p>
                 <p><strong>Abertura:</strong> ${new Date(c.data_abertura).toLocaleString()}</p>
