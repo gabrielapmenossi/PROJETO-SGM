@@ -130,9 +130,6 @@
                 <div class="modal-body">
                     <p id="textoDescricaoCompleta" class="text-break" style="white-space: pre-wrap; color: #333;"></p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
             </div>
         </div>
     </div>

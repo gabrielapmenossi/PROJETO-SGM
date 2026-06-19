@@ -11,8 +11,8 @@ $db = isset($conn) ? $conn : (isset($pdo) ? $pdo : (isset($conexao) ? $conexao :
 if ($db) {
     try {
         // Consultas SQL
-        $sqlAndamento = "SELECT COUNT(*) as total FROM chamados WHERE status = 'em_andamento'";
-        $sqlCriticos = "SELECT COUNT(*) as total FROM chamados WHERE (prioridade = 'urgente' OR prioridade = 'critico') AND status != 'concluido'";
+        $sqlAndamento = "SELECT COUNT(*) as total FROM chamados WHERE status = 'em_execucao'";
+        $sqlCriticos = "SELECT COUNT(*) as total FROM chamados WHERE prioridade = 'urgente' AND status != 'concluido'";
 
         // 3. Verifica se você está usando PDO ou MySQLi e executa da forma correta
         if ($db instanceof PDO) {
@@ -170,7 +170,7 @@ if ($db) {
             </div>
             
             <div class="card criticos-urgentes">
-                <h3>Críticos / Urgentes</h3>
+                <h3>Urgentes</h3>
                 <p><?php echo $totalCriticos; ?></p>
             </div>
         </div>
